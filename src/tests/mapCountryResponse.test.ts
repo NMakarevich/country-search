@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import mapCountryResponse from "../core/mapCountryResponse.ts";
 import { mockResponse } from "../mock/mock.ts";
-import { CountryEntity } from "../entities/countryEntity.ts";
+import { Country } from "../entities/country.ts";
 
 describe("mapCountryResponse", () => {
   it("should return an empty array", async () => {
@@ -14,6 +14,6 @@ describe("mapCountryResponse", () => {
     const mockJson = new Promise((resolve) => resolve(mockResponse));
     const result = await mapCountryResponse(mockJson);
     expect(Array.isArray(result)).toBe(true);
-    expect(result.every((country) => country instanceof CountryEntity)).toBe(true);
+    expect(result.every((country) => country instanceof Country)).toBe(true);
   });
 });

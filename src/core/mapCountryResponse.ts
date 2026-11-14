@@ -1,4 +1,4 @@
-import type { Country } from "./types.ts";
+import { Country } from "../entities/country.ts";
 
 export default async function mapCountryResponse(raw: Promise<unknown>): Promise<Country[]> {
   console.log(raw);

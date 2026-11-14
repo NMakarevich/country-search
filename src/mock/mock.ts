@@ -1,6 +1,6 @@
-import type { Country } from "../core/types.ts";
+import type { ICountry } from "../core/types.ts";
 
-export const mockResponse: Country[] = [
+export const mockResponse: ICountry[] = [
   {
     area: 207600,
     cioc: "BLR",
