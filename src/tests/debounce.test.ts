@@ -1,5 +1,5 @@
 import { describe, expect, vi, it, beforeAll } from "vitest";
-import debounce from "./core/debounce.ts";
+import debounce from "../core/debounce.ts";
 
 describe("debounce", () => {
   beforeAll(() => {
