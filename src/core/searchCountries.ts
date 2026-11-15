@@ -7,11 +7,11 @@ export default async function searchCountries(
 ): Promise<unknown[]> {
   try {
     const response = await fetch(`${BASE_URL}/${searchString}`, { signal });
-    if (!response.ok) {
-      throw new HttpError(response.ok);
-    }
     if (response.status === 404) {
       throw new Error("404");
+    }
+    if (!response.ok) {
+      throw new HttpError(response.ok);
     }
     return response.json();
   } catch (error) {
