@@ -39,7 +39,22 @@ describe("searchCountries", () => {
       await searchCountries("rusia", abortController.signal);
     } catch (e) {
       expect(e).toBeInstanceOf(Error);
-      expect((e as Error).message).toBe("Ничего не найдено");
+      expect((e as Error).message).toBe("404");
+    }
+  });
+  it("Should throw abort error if next request was called", async () => {
+    const abortController = new AbortController();
+    mockFetch.mockResolvedValue({
+      ok: true,
+      status: 200,
+      json: () => Promise.resolve(mockResponse),
+    });
+    try {
+      abortController.abort();
+      await searchCountries("rusia", abortController.signal);
+    } catch (e) {
+      expect(e).toBeInstanceOf(Error);
+      expect((e as Error).message).toBe("AbortError");
     }
   });
 });
