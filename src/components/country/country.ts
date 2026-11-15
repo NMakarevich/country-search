@@ -15,14 +15,14 @@ export function country(details: Country) {
             classList: ["country-flag"],
             attributes: { src: details.flags?.svg || "", alt: details.name },
           }),
-          createElement("ul", {
-            classList: ["country-info"],
-            children: [
-              createElement("li", {
-                classList: ["country-info__item"],
-                children: ["Name", details.name],
-              }),
-            ],
+        ],
+      }),
+      createElement("ul", {
+        classList: ["country-info"],
+        children: [
+          createElement("li", {
+            classList: ["country-info__item"],
+            children: ["Name", details.name],
           }),
         ],
       }),
