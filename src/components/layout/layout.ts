@@ -1,12 +1,19 @@
 import { createElement } from "../../utils/createElement.ts";
 
+import "./styles.css";
+
 export function layout() {
   const searchInput = createElement("input", {
     classList: ["input"],
     attributes: { id: "search-country" },
   });
   const resultsList = createElement("ul", {
-    classList: ["results-list"],
+    classList: ["results-list", "hidden"],
+  });
+  const loader = createElement("span", { classList: ["loader", "hidden"] });
+  const notFound = createElement("span", {
+    classList: ["not-found", "hidden"],
+    children: ["Ничего не найдено"],
   });
 
   function render() {
@@ -27,6 +34,8 @@ export function layout() {
                 searchInput,
               ],
             }),
+            loader,
+            notFound,
             resultsList,
           ],
         }),
@@ -34,5 +43,5 @@ export function layout() {
     });
   }
 
-  return { render, searchInput, resultsList } as const;
+  return { render, searchInput, resultsList, loader, notFound } as const;
 }
