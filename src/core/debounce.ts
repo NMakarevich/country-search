@@ -1,16 +1,18 @@
-export default function debounce<T extends (...args: unknown[]) => void>(
-  func: T,
+export default function debounce<T extends unknown[]>(
+  func: (...args: T) => Promise<unknown[]>,
   delay: number
-): (...args: Parameters<T>) => void {
+): (...args: T) => Promise<unknown[]> {
   let timeoutId: ReturnType<typeof setTimeout> | null = null;
 
-  return function (...args: Parameters<T>) {
+  return (...args: T) => {
     if (timeoutId !== null) {
       clearTimeout(timeoutId);
     }
 
-    timeoutId = setTimeout(() => {
-      func(...args);
-    }, delay);
+    return new Promise((resolve) => {
+      timeoutId = setTimeout(() => {
+        resolve(func(...args));
+      }, delay);
+    });
   };
 }
