@@ -1,5 +1,6 @@
 import { createElement } from "../../utils/createElement.ts";
 import type { Country } from "../../entities/country.ts";
+import infoItem from "./infoItem.ts";
 
 export function country(details: Country) {
   function handleClick() {}
@@ -21,9 +22,11 @@ export function country(details: Country) {
         classList: ["country-info"],
         children: [
           createElement("li", {
-            classList: ["country-info__item"],
-            children: ["Name", details.name],
+            classList: ["country-info__item", "title"],
+            children: [details.name],
           }),
+          infoItem("Capital:", details.capital),
+          infoItem("Population:", details.population),
         ],
       }),
     ],
