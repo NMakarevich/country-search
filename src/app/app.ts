@@ -5,14 +5,51 @@ import mapCountryResponse from "../core/mapCountryResponse.ts";
 import type { Country } from "../entities/country.ts";
 import { country } from "../components/country/country.ts";
 
-export default function app() {
-  const { render, searchInput, resultsList, loader, notFound } = layout();
+const DELAY_MS = 500;
+const TIMEOUT_MS = 2000;
 
-  const debouncedGetCountries = debounce(searchCountries, 500);
+export default function app() {
+  const { render, searchInput, resultsList, loader, notFound, timeout, retryButton } = layout();
+
+  const debouncedGetCountries = debounce(searchCountries, DELAY_MS);
   let abortController: AbortController | null = null;
 
   function renderResults(countries: Country[]) {
     resultsList.replaceChildren(...countries.map((c) => country(c)));
+  }
+
+  async function searchCountry(searchString: string) {
+    abortController?.abort();
+    abortController = new AbortController();
+    notFound.classList.add("hidden");
+    resultsList.classList.add("hidden");
+    loader.classList.remove("hidden");
+    try {
+      const res = debouncedGetCountries(
+        searchString,
+        AbortSignal.any([abortController.signal, AbortSignal.timeout(TIMEOUT_MS)])
+      );
+      const countries = await mapCountryResponse(res);
+      loader.classList.add("hidden");
+      resultsList.classList.remove("hidden");
+      renderResults(countries);
+    } catch (e) {
+      loader.classList.add("hidden");
+      if (e instanceof Error) {
+        if (e.message === "AbortError") {
+          console.log("Aborted by next request");
+        } else if (e.message === "TimeoutError") {
+          loader.classList.add("hidden");
+          timeout.classList.remove("hidden");
+          retryButton.onclick = async () => {
+            timeout.classList.add("hidden");
+            await searchCountry(searchString);
+          };
+        } else if (e.message === "404") {
+          notFound.classList.remove("hidden");
+        }
+      }
+    }
   }
 
   async function handleInput(event: Event) {
@@ -23,38 +60,14 @@ export default function app() {
         resultsList.replaceChildren("");
         return;
       }
-      abortController?.abort();
-      abortController = new AbortController();
-      notFound.classList.add("hidden");
-      resultsList.classList.add("hidden");
-      loader.classList.remove("hidden");
-      try {
-        const res = debouncedGetCountries(
-          value,
-          AbortSignal.any([abortController.signal, AbortSignal.timeout(3000)])
-        );
-        const countries = await mapCountryResponse(res);
-        loader.classList.add("hidden");
-        resultsList.classList.remove("hidden");
-        renderResults(countries);
-      } catch (e) {
-        loader.classList.add("hidden");
-        if (e instanceof Error) {
-          if (e.name === "AbortError") {
-            console.log("Aborted by next request");
-          } else if (e.name === "TimeoutError") {
-            console.log("Time is out");
-          } else if (e.message === "404") {
-            notFound.classList.remove("hidden");
-          }
-        }
-      }
+      await searchCountry(value);
     }
   }
 
   function run() {
     document.body.appendChild(render());
     searchInput.addEventListener("input", handleInput);
+    searchInput.focus();
   }
 
   return { run } as const;
