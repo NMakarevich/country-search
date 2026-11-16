@@ -6,7 +6,7 @@ import type { Country } from "../entities/country.ts";
 import { country } from "../components/country/country.ts";
 
 const DELAY_MS = 500;
-const TIMEOUT_MS = 3000;
+const TIMEOUT_MS = 2000;
 
 export default function app() {
   const { render, searchInput, resultsList, loader, notFound, timeout, retryButton } = layout();
