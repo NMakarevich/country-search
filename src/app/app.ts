@@ -67,6 +67,7 @@ export default function app() {
   function run() {
     document.body.appendChild(render());
     searchInput.addEventListener("input", handleInput);
+    searchInput.focus();
   }
 
   return { run } as const;
