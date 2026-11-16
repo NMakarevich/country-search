@@ -28,6 +28,19 @@
   border: 1px solid #000;
 }
 
+.timeout {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.button {
+  padding: 10px;
+  background-color: transparent;
+  border: 1px solid #000;
+  border-radius: 4px;
+}
+
 .results-list {
   display: flex;
   flex-direction: column;

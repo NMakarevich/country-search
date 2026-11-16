@@ -15,6 +15,15 @@ export function layout() {
     classList: ["not-found", "hidden"],
     children: ["Ничего не найдено"],
   });
+  const retryButton = createElement("button", {
+    classList: ["button"],
+    attributes: { type: "button" },
+    children: ["Повторить поиск"],
+  });
+  const timeout = createElement("div", {
+    classList: ["timeout", "hidden"],
+    children: [createElement("span", { children: ["Превышено время запроса"] }), retryButton],
+  });
 
   function render() {
     return createElement("main", {
@@ -27,6 +36,7 @@ export function layout() {
               classList: ["search"],
               children: [searchInput],
             }),
+            timeout,
             loader,
             notFound,
             resultsList,
@@ -36,5 +46,5 @@ export function layout() {
     });
   }
 
-  return { render, searchInput, resultsList, loader, notFound } as const;
+  return { render, searchInput, resultsList, loader, notFound, retryButton, timeout } as const;
 }
