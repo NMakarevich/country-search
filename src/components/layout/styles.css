@@ -16,7 +16,7 @@
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  border: 5px solid #000;
+  border: 5px solid #d0bcff;
   border-top-color: transparent;
   animation: spin 2s linear infinite;
 }
@@ -24,8 +24,10 @@
 .input {
   padding: 10px 20px;
   width: 300px;
+  background-color: #36343b;
   border-radius: 4px;
-  border: 1px solid #000;
+  border: 1px solid #938f99;
+  color: #e6e0e9;
 }
 
 .timeout {
@@ -36,9 +38,10 @@
 
 .button {
   padding: 10px;
-  background-color: transparent;
-  border: 1px solid #000;
+  background-color: #d0bcff;
+  border: 1px solid #938f99;
   border-radius: 4px;
+  color: #381e72;
 }
 
 .results-list {
@@ -54,7 +57,8 @@
   align-items: center;
   gap: 16px;
   width: 400px;
-  border: 1px solid rgba(0, 0, 0, 0.4);
+  background-color: #211f26;
+  border: 1px solid #938f99;
   border-radius: 16px;
   overflow: hidden;
 }
