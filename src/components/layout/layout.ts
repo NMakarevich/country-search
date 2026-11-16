@@ -5,7 +5,7 @@ import "./styles.css";
 export function layout() {
   const searchInput = createElement("input", {
     classList: ["input"],
-    attributes: { id: "search-country" },
+    attributes: { id: "search-country", placeholder: "Искать страну по названию" },
   });
   const resultsList = createElement("ul", {
     classList: ["results-list", "hidden"],
@@ -25,14 +25,7 @@ export function layout() {
           children: [
             createElement("div", {
               classList: ["search"],
-              children: [
-                createElement("label", {
-                  classList: ["search-label"],
-                  attributes: { for: "search-country" },
-                  children: ["Search country: "],
-                }),
-                searchInput,
-              ],
+              children: [searchInput],
             }),
             loader,
             notFound,
