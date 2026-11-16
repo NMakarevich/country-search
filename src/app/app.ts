@@ -5,10 +5,13 @@ import mapCountryResponse from "../core/mapCountryResponse.ts";
 import type { Country } from "../entities/country.ts";
 import { country } from "../components/country/country.ts";
 
+const DELAY_MS = 500;
+const TIMEOUT_MS = 3000;
+
 export default function app() {
   const { render, searchInput, resultsList, loader, notFound, timeout, retryButton } = layout();
 
-  const debouncedGetCountries = debounce(searchCountries, 500);
+  const debouncedGetCountries = debounce(searchCountries, DELAY_MS);
   let abortController: AbortController | null = null;
 
   function renderResults(countries: Country[]) {
@@ -24,7 +27,7 @@ export default function app() {
     try {
       const res = debouncedGetCountries(
         searchString,
-        AbortSignal.any([abortController.signal, AbortSignal.timeout(1500)])
+        AbortSignal.any([abortController.signal, AbortSignal.timeout(TIMEOUT_MS)])
       );
       const countries = await mapCountryResponse(res);
       loader.classList.add("hidden");
