@@ -10,7 +10,8 @@
     "format": "prettier --write .",
     "lint": "eslint . --fix",
     "test": "vitest run",
-    "prepare": "husky"
+    "prepare": "husky",
+    "deploy": "npm run build && gh-pages -d dist"
   },
   "lint-staged": {
     "**/*.{css,js,ts,html}": "./node_modules/.bin/prettier --check",
@@ -20,6 +21,7 @@
     "@eslint/js": "^10.0.1",
     "eslint": "^10.14.0",
     "eslint-config-prettier": "^10.1.8",
+    "gh-pages": "^6.3.0",
     "globals": "^17.14.0",
     "husky": "^9.1.7",
     "lint-staged": "^16.4.0",
